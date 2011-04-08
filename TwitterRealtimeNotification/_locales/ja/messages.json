@@ -1,0 +1,117 @@
+{
+  "name": {
+    "message": "TwitterRealtimeNotification"
+  },
+  "description": {
+    "message": "Twitterでのイベントをリアルタイムで通知する拡張機能です。"
+  },
+  "options_options": {
+    "message": "オプション"
+  },
+  "options_events": {
+    "message": "通知するイベントを選択してください。"
+  },
+  "options_save": {
+    "message": "保存"
+  },
+  "options_events_mention": {
+    "message": "@関連"
+  },
+  "options_events_mention_matchInReplyTo": {
+    "message": "自分宛てのみ"
+  },
+  "options_events_mention_matchInReplyTo_help": {
+    "message": "(有効にすると非公式RTなどが通知されなくなります)"
+  },
+  "options_events_directMessage": {
+    "message": "ダイレクトメッセージ"
+  },
+  "options_events_retweet": {
+    "message": "リツイート"
+  },
+  "options_events_favorite": {
+    "message": "お気に入り"
+  },
+  "options_events_unfavorite": {
+    "message": "お気に入り解除"
+  },
+  "options_events_follow": {
+    "message": "フォロー"
+  },
+  "options_events_unfollow": {
+    "message": "フォロー解除"
+  },
+  "options_events_block": {
+    "message": "ブロック"
+  },
+  "options_events_unblock": {
+    "message": "ブロック解除"
+  },
+  "notifications_mention_title": {
+    "message": "$name$ (@$screen_name$)からの@関連",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "screen_name": {
+        "content": "$2"
+      }
+    }
+  },
+  "notifications_directMessage_title": {
+    "message": "$name$ (@$screen_name$)からのダイレクトメッセージ",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "screen_name": {
+        "content": "$2"
+      }
+    }
+  },
+  "notifications_retweet_title": {
+    "message": "$name$ (@$screen_name$)がリツイート",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "screen_name": {
+        "content": "$2"
+      }
+    }
+  },
+  "notifications_favorite_title": {
+    "message": "$name$ (@$screen_name$)がお気に入り",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "screen_name": {
+        "content": "$2"
+      }
+    }
+  },
+  "notifications_unfavorite_title": {
+    "message": "$name$ (@$screen_name$)がお気に入り解除",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "screen_name": {
+        "content": "$2"
+      }
+    }
+  },
+  "notifications_follow_title": {
+    "message": "$name$ (@$screen_name$)がフォロー",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "screen_name": {
+        "content": "$2"
+      }
+    }
+  }
+}
+
