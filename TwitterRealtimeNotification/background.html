@@ -236,7 +236,7 @@
             xhr.onreadystatechange = function(data) {
               if(xhr.readyState == 4) {
                 clearInterval(interval);
-                if(connectionError) {
+                if(connectionError || xhr.status != 200) {
                   if(wait == 0) {
                     wait = 20000;
                   }
