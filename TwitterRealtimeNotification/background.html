@@ -106,10 +106,10 @@
       };
       var onRetweet = function(item) {
         notification({
-          href:    'https://twitter.com/#!/' + item.target_object.user.screen_name + '/statuses/' + item.target_object.id_str,
-          iconUrl: item.source.profile_image_url,
-          title:   chrome.i18n.getMessage('notifications_mention_title', [ item.source.name, item.source.screen_name ]),
-          content: item.target_object.text
+          href:    'https://twitter.com/#!/' + item.retweeted_status.user.screen_name + '/statuses/' + item.retweeted_status.id_str,
+          iconUrl: item.user.profile_image_url,
+          title:   chrome.i18n.getMessage('notifications_retweet_title', [ item.user.name, item.user.screen_name ]),
+          content: item.retweeted_status.text
         });
       };
       var onFollow = function(item) {
@@ -139,13 +139,6 @@
 
       var onReceive = function(item) {
         switch(item.event) {
-        case 'retweet':
-          if(options.events.retweet.enabled) {
-            if(item.source.id_str != user.id_str) {
-              onRetweet(item);
-            }
-          }
-          break;
         case 'favorite':
           if(options.events.favorite.enabled) {
             if(item.source.id_str != user.id_str) {
@@ -168,7 +161,14 @@
           }
           break;
         default:
-          if(item.text && item.text.indexOf('@' + user.screen_name) != -1) {
+          if(item.retweeted_status) {
+            if(options.events.retweet.enabled) {
+              if(item.retweeted_status.user.id_str === user.id_str) {
+                onRetweet(item);
+              }
+            }
+          }
+          else if(item.text && item.text.indexOf('@' + user.screen_name) != -1) {
             if(options.events.mention.enabled) {
               if(options.events.mention.matchInReplyTo) {
                 if(item.in_reply_to_user_id_str === user.id_str) {
