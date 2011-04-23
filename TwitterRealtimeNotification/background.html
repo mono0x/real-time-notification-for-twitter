@@ -182,7 +182,9 @@
           }
           else if(item.direct_message) {
             if(options.events.directMessage.enabled) {
-              onDirectMessage(item);
+              if(item.direct_message.sender.id_str != user.id_str) {
+                onDirectMessage(item);
+              }
             }
           }
         }
