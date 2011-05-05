@@ -77,6 +77,12 @@
 
       var options = load();
 
+      var unescapeHTML = function(html) {
+        var div = document.createElement('div');
+        div.innerHTML = html.replace(/<\/?[^>]+>/gi, '');
+        return div.childNodes[0] ? div.childNodes[0].nodeValue : '';
+      };
+
       var notificationQueue = [];
 
       var notification = function(item) {
@@ -93,7 +99,7 @@
           href:    'https://twitter.com/#!/' + item.user.screen_name + '/statuses/' + item.id_str,
           iconUrl: item.user.profile_image_url,
           title:   chrome.i18n.getMessage('notifications_mention_title', [ item.user.name, item.user.screen_name ]),
-          content: item.text
+          content: unescapeHTML(item.text)
         });
       };
       var onDirectMessage = function(item) {
@@ -101,7 +107,7 @@
           href:    'https://twitter.com/#!/messages',
           iconUrl: item.direct_message.sender.profile_image_url,
           title:   chrome.i18n.getMessage('notifications_directMessage_title', [ item.direct_message.sender.name, item.direct_message.sender.screen_name ]),
-          content: item.direct_message.text
+          content: unescapeHTML(item.direct_message.text)
         });
       };
       var onRetweet = function(item) {
@@ -109,7 +115,7 @@
           href:    'https://twitter.com/#!/' + item.retweeted_status.user.screen_name + '/statuses/' + item.retweeted_status.id_str,
           iconUrl: item.user.profile_image_url,
           title:   chrome.i18n.getMessage('notifications_retweet_title', [ item.user.name, item.user.screen_name ]),
-          content: item.retweeted_status.text
+          content: unescapeHTML(item.retweeted_status.text)
         });
       };
       var onFollow = function(item) {
@@ -117,7 +123,7 @@
           href:    'https://twitter.com/#!/' + item.source.screen_name,
           iconUrl: item.source.profile_image_url,
           title:   chrome.i18n.getMessage('notifications_follow_title', [ item.source.name, item.source.screen_name ]),
-          content: item.source.description
+          content: unescapeHTML(item.source.description)
         });
       };
       var onFavorite = function(item) {
@@ -125,7 +131,7 @@
           href:    'https://twitter.com/#!/' + item.target_object.user.screen_name + '/statuses/' + item.target_object.id_str,
           iconUrl: item.source.profile_image_url,
           title:   chrome.i18n.getMessage('notifications_favorite_title', [ item.source.name, item.source.screen_name ]),
-          content: item.target_object.text
+          content: unescapeHTML(item.target_object.text)
         });
       };
       var onUnfavorite = function(item) {
@@ -133,7 +139,7 @@
           href:    'https://twitter.com/#!/' + item.target_object.user.screen_name + '/statuses/' + item.target_object.id_str,
           iconUrl: item.source.profile_image_url,
           title:   chrome.i18n.getMessage('notifications_unfavorite_title', [ item.source.name, item.source.screen_name ]),
-          content: item.target_object.text
+          content: unescapeHTML(item.target_object.text)
         });
       };
 
