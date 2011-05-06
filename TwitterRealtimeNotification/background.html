@@ -77,9 +77,7 @@
       var options = load();
 
       var unescapeHTML = function(html) {
-        var div = document.createElement('div');
-        div.innerHTML = html.replace(/<\/?[^>]+>/gi, '');
-        return div.childNodes[0] ? div.childNodes[0].nodeValue : '';
+        return html.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g,'"').replace(/&amp;/g, '&');
       };
 
       var notificationQueue = [];
