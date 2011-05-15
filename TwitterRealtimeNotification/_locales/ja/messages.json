@@ -9,7 +9,7 @@
     "message": "オプション"
   },
   "options_events": {
-    "message": "通知するイベントを選択してください。"
+    "message": "通知するイベント"
   },
   "options_save": {
     "message": "保存"
@@ -46,6 +46,18 @@
   },
   "options_events_unblock": {
     "message": "ブロック解除"
+  },
+  "options_events_automaticallyClose": {
+    "message": "自動的に閉じる"
+  },
+  "options_notification": {
+    "message": "通知"
+  },
+  "options_notification_automaticallyClose_timeout": {
+    "message": "通知を自動的に閉じるまでの時間"
+  },
+  "options_unit_second": {
+    "message": "秒"
   },
   "notifications_mention_title": {
     "message": "$name$ (@$screen_name$)からの@関連",

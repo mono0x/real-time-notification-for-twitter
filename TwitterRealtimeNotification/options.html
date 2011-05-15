@@ -27,7 +27,15 @@
     <style type="text/css">
       ul {
         list-style-type: none;
+        padding-left: 0;
       }
+      ul ul {
+        padding-left: 2em;
+      }
+      .group {
+        margin-bottom: 1em;
+      }
+
     </style>
     <script type="text/javascript">
       var _gaq = _gaq || [];
@@ -43,54 +51,109 @@
     <script type="text/javascript" src="lib/options.js"></script>
   </head>
   <body>
-    <h1 class="options_options"></h1>
     <form>
-      <p class="options_events"></p>
       <ul>
-        <li>
-          <label>
-            <input id="events_mention_enabled" type="checkbox" value="true" />
-            <span class="options_events_mention" />
-          </label>
+        <li class="group">
+          <span class="options_events"></span>
           <ul>
             <li>
               <label>
-                <input id="events_mention_matchInReplyTo" type="checkbox" value="true" />
-                <span class="options_events_mention_matchInReplyTo" />
+                <input id="events_mention_enabled" type="checkbox" value="true" />
+                <span class="options_events_mention"></span>
               </label>
-              <span class="options_events_mention_matchInReplyTo_help" />
+              <ul>
+                <li>
+                  <label>
+                    <input id="events_mention_matchInReplyTo" type="checkbox" value="true" />
+                    <span class="options_events_mention_matchInReplyTo"></span>
+                  </label>
+                  <span class="options_events_mention_matchInReplyTo_help"></span>
+                </li>
+                <li>
+                  <label>
+                    <input id="events_mention_automaticallyClose" type="checkbox" value="true" />
+                    <span class="options_events_automaticallyClose"></span>
+                  </label>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <label>
+                <input id="events_directMessage_enabled" type="checkbox" value="true" />
+                <span class="options_events_directMessage"></span>
+              </label>
+              <ul>
+                <li>
+                  <label>
+                    <input id="events_directMessage_automaticallyClose" type="checkbox" value="true" />
+                    <span class="options_events_automaticallyClose"></span>
+                  </label>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <label>
+                <input id="events_retweet_enabled" type="checkbox" value="true" />
+                <span class="options_events_retweet"></span>
+              </label>
+              <ul>
+                <li>
+                  <label>
+                    <input id="events_retweet_automaticallyClose" type="checkbox" value="true" />
+                    <span class="options_events_automaticallyClose"></span>
+                  </label>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <label>
+                <input id="events_favorite_enabled" type="checkbox" value="true" />
+                <span class="options_events_favorite"></span>
+              </label>
+              <ul>
+                <li>
+                  <label>
+                    <input id="events_favorite_automaticallyClose" type="checkbox" value="true" />
+                    <span class="options_events_automaticallyClose"></span>
+                  </label>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <label>
+                <input id="events_unfavorite_enabled" type="checkbox" value="true" />
+                <span class="options_events_unfavorite"></span>
+              </label>
+              <ul>
+                <li>
+                  <label>
+                    <input id="events_unfavorite_automaticallyClose" type="checkbox" value="true" />
+                    <span class="options_events_automaticallyClose"></span>
+                  </label>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <label>
+                <input id="events_follow_enabled" type="checkbox" value="true" />
+                <span class="options_events_follow"></span>
+              </label>
+              <ul>
+                <li>
+                  <label>
+                    <input id="events_follow_automaticallyClose" type="checkbox" value="true" />
+                    <span class="options_events_automaticallyClose"></span>
+                  </label>
+                </li>
+              </ul>
             </li>
           </ul>
         </li>
-        <li>
-          <label>
-            <input id="events_directMessage_enabled" type="checkbox" value="true" />
-            <span class="options_events_directMessage" />
-          </label>
-        </li>
-        <li>
-          <label>
-            <input id="events_retweet_enabled" type="checkbox" value="true" />
-            <span class="options_events_retweet" />
-          </label>
-        </li>
-        <li>
-          <label>
-            <input id="events_favorite_enabled" type="checkbox" value="true" />
-            <span class="options_events_favorite" />
-          </label>
-        </li>
-        <li>
-          <label>
-            <input id="events_unfavorite_enabled" type="checkbox" value="true" />
-            <span class="options_events_unfavorite" />
-          </label>
-        </li>
-        <li>
-          <label>
-            <input id="events_follow_enabled" type="checkbox" value="true" />
-            <span class="options_events_follow" />
-          </label>
+
+        <li class="group">
+          <span class="options_notification_automaticallyClose_timeout"></span>:
+          <input id="notification_automaticallyClose_timeout" size="4" type="number" min="10" step="10" required="true" />
+          <span class="options_unit_second"></span>
         </li>
       </ul>
       <input type="submit" value="" />

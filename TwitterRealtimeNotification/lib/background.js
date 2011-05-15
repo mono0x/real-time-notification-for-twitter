@@ -25,33 +25,64 @@ var defaultOptions = {
   events: {
     mention: {
       enabled: true,
-      matchInReplyTo: false
+      matchInReplyTo: false,
+      automaticallyClose: true
     },
     directMessage: {
-      enabled: true
+      enabled: true,
+      automaticallyClose: false
     },
     retweet: {
-      enabled: true
+      enabled: true,
+      automaticallyClose: true
     },
     favorite: {
-      enabled: true
+      enabled: true,
+      automaticallyClose: true
     },
     unfavorite: {
-      enabled: false
+      enabled: false,
+      automaticallyClose: true
     },
     follow: {
-      enabled: true
+      enabled: true,
+      automaticallyClose: false
+    }
+  },
+  notification: {
+    automaticallyClose: {
+      timeout: 30
     }
   }
 };
 
+var clone = function(obj) {
+  return JSON.parse(JSON.stringify(obj));
+};
+
+var merge = function(obj, other) {
+  var result = clone(obj);
+  for(var property in other) {
+    if(result[property] === undefined) {
+      result[property] = other[property];
+    }
+    else if(typeof result[property] == 'object') {
+      result[property] = merge(result[property], other[property]);
+    }
+  }
+  return result;
+};
+
 var load = function() {
   var options = localStorage.options;
-  return options ? JSON.parse(options) : defaultOptions;
+  var result = options ? merge(JSON.parse(options), defaultOptions) : clone(defaultOptions);
+  console.log('Options Loaded', result);
+  return result;
 };
 var save = function(options_) {
-  localStorage.options = JSON.stringify(options_);
+  localStorage.options = JSON.stringify(merge(options_, defaultOptions));
   options = options_;
+  console.log('Option Saved', options);
 };
 
 var oauth = ChromeExOAuth.initBackgroundPage({
@@ -75,12 +106,15 @@ var unescapeHTML = function(html) {
 var notificationQueue = [];
 
 var notification = function(item) {
+  console.log('Notification', item);
   notificationQueue.push(item);
   var n = webkitNotifications.createHTMLNotification('notification.html');
   n.show();
-  setTimeout(function() {
-    n.cancel();
-  }, 30000);
+  if(item.automaticallyClose) {
+    setTimeout(function() {
+      n.cancel();
+    }, options.notification.automaticallyClose.timeout * 1000);
+  }
 };
 
 var onMention = function(item) {
@@ -88,7 +122,8 @@ var onMention = function(item) {
     href:    'https://twitter.com/#!/' + item.user.screen_name + '/statuses/' + item.id_str,
     iconUrl: item.user.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_mention_title', [ item.user.name, item.user.screen_name ]),
-    content: unescapeHTML(item.text)
+    content: unescapeHTML(item.text),
+    automaticallyClose: options.events.mention.automaticallyClose
   });
 };
 var onDirectMessage = function(item) {
@@ -96,7 +131,8 @@ var onDirectMessage = function(item) {
     href:    'https://twitter.com/#!/messages',
     iconUrl: item.direct_message.sender.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_directMessage_title', [ item.direct_message.sender.name, item.direct_message.sender.screen_name ]),
-    content: unescapeHTML(item.direct_message.text)
+    content: unescapeHTML(item.direct_message.text),
+    automaticallyClose: options.events.directMessage.automaticallyClose
   });
 };
 var onRetweet = function(item) {
@@ -104,7 +140,8 @@ var onRetweet = function(item) {
     href:    'https://twitter.com/#!/' + item.retweeted_status.user.screen_name + '/statuses/' + item.retweeted_status.id_str,
     iconUrl: item.user.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_retweet_title', [ item.user.name, item.user.screen_name ]),
-    content: unescapeHTML(item.retweeted_status.text)
+    content: unescapeHTML(item.retweeted_status.text),
+    automaticallyClose: options.events.retweet.automaticallyClose
   });
 };
 var onFollow = function(item) {
@@ -112,7 +149,8 @@ var onFollow = function(item) {
     href:    'https://twitter.com/#!/' + item.source.screen_name,
     iconUrl: item.source.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_follow_title', [ item.source.name, item.source.screen_name ]),
-    content: unescapeHTML(item.source.description)
+    content: unescapeHTML(item.source.description),
+    automaticallyClose: options.events.follow.automaticallyClose
   });
 };
 var onFavorite = function(item) {
@@ -120,7 +158,8 @@ var onFavorite = function(item) {
     href:    'https://twitter.com/#!/' + item.target_object.user.screen_name + '/statuses/' + item.target_object.id_str,
     iconUrl: item.source.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_favorite_title', [ item.source.name, item.source.screen_name ]),
-    content: unescapeHTML(item.target_object.text)
+    content: unescapeHTML(item.target_object.text),
+    automaticallyClose: options.events.favorite.automaticallyClose
   });
 };
 var onUnfavorite = function(item) {
@@ -128,7 +167,8 @@ var onUnfavorite = function(item) {
     href:    'https://twitter.com/#!/' + item.target_object.user.screen_name + '/statuses/' + item.target_object.id_str,
     iconUrl: item.source.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_unfavorite_title', [ item.source.name, item.source.screen_name ]),
-    content: unescapeHTML(item.target_object.text)
+    content: unescapeHTML(item.target_object.text),
+    automaticallyClose: options.events.unfavorite.automaticallyClose
   });
 };
 
