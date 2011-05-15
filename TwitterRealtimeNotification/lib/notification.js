@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<!--
+/*
  * Copyright (c) 2011 mono
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,25 +18,28 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
--->
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-5224843-8']);
-      _gaq.push(['_trackPageview']);
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = 'https://ssl.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
-    <script type="text/javascript" src="chrome_ex_oauthsimple.js"></script>
-    <script type="text/javascript" src="chrome_ex_oauth.js"></script>
-    <script type="text/javascript" src="lib/userstream.js"></script>
-    <script type="text/javascript" src="lib/background.js"></script>
-  </head>
-  <body>
-  </body>
-</html>
+ */
+
+document.addEventListener('DOMContentLoaded', function() {
+  var background = chrome.extension.getBackgroundPage();
+  var queue = background.notificationQueue;
+  if(queue.length == 0) {
+    window.close();
+  }
+  var item = queue.shift();
+  var title = document.getElementById('title');
+  var icon = document.getElementById('icon');
+  var content = document.getElementById('content');
+  title.textContent = item.title;
+  title.href = item.href;
+  icon.src = item.iconUrl;
+  content.textContent = item.content;
+  title.addEventListener('click', function() {
+    chrome.tabs.create({
+      url: title.href
+    });
+    window.close();
+    return false;
+  }, false);
+}, false);
+

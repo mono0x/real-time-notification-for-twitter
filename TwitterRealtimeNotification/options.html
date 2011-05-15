@@ -40,70 +40,7 @@
       })();
     </script>
     <script type="text/javascript" src="jquery-1.6.1.min.js"></script>
-    <script type="text/javascript">
-      $(function() {
-      var background = chrome.extension.getBackgroundPage();
-
-      (function() {
-
-      var options = background.load();
-
-      $('#events_mention_enabled').attr('checked', options.events.mention.enabled);
-      $('#events_mention_matchInReplyTo').attr('checked', options.events.mention.matchInReplyTo);
-      $('#events_directMessage_enabled').attr('checked', options.events.directMessage.enabled);
-      $('#events_retweet_enabled').attr('checked', options.events.retweet.enabled);
-      $('#events_favorite_enabled').attr('checked', options.events.favorite.enabled);
-      $('#events_unfavorite_enabled').attr('checked', options.events.unfavorite.enabled);
-      $('#events_follow_enabled').attr('checked', options.events.follow.enabled);
-
-      })();
-
-      var setMessage = function(name) {
-        $('.' + name).text(chrome.i18n.getMessage(name));
-      };
-
-      setMessage('options_options');
-      setMessage('options_events');
-      setMessage('options_events_mention');
-      setMessage('options_events_mention_matchInReplyTo');
-      setMessage('options_events_mention_matchInReplyTo_help');
-      setMessage('options_events_directMessage');
-      setMessage('options_events_retweet');
-      setMessage('options_events_favorite');
-      setMessage('options_events_unfavorite');
-      setMessage('options_events_follow');
-      $('input[type="submit"]').val(chrome.i18n.getMessage('options_save'));
-
-      $('form').submit(function() {
-        background.save({
-          version: 1,
-          events: {
-            mention: {
-              enabled: $('#events_mention_enabled').is(':checked'),
-              matchInReplyTo: $('#events_mention_matchInReplyTo').is(':checked')
-            },
-            directMessage: {
-              enabled: $('#events_directMessage_enabled').is(':checked')
-            },
-            retweet: {
-              enabled: $('#events_retweet_enabled').is(':checked')
-            },
-            favorite: {
-              enabled: $('#events_favorite_enabled').is(':checked')
-            },
-            unfavorite: {
-              enabled: $('#events_unfavorite_enabled').is(':checked')
-            },
-            follow: {
-              enabled: $('#events_follow_enabled').is(':checked')
-            }
-          }
-        });
-        return false;
-      });
-
-      });
-    </script>
+    <script type="text/javascript" src="lib/options.js"></script>
   </head>
   <body>
     <h1 class="options_options"></h1>

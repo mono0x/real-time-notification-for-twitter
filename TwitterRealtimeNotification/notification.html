@@ -68,30 +68,7 @@
         font-weight: normal;
       }
     </style>
-    <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function() {
-        var background = chrome.extension.getBackgroundPage();
-        var queue = background.notificationQueue;
-        if(queue.length == 0) {
-          window.close();
-        }
-        var item = queue.shift();
-        var title = document.getElementById('title');
-        var icon = document.getElementById('icon');
-        var content = document.getElementById('content');
-        title.textContent = item.title;
-        title.href = item.href;
-        icon.src = item.iconUrl;
-        content.textContent = item.content;
-        title.addEventListener('click', function() {
-          chrome.tabs.create({
-            url: title.href
-          });
-          window.close();
-          return false;
-        }, false);
-      }, false);
-    </script>
+    <script type="text/javascript" src="lib/notification.js"></script>
   </head>
   <body>
     <div id="notification">
