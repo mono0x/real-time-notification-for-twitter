@@ -103,12 +103,15 @@ var unescapeHTML = function(html) {
   return html.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g,'"').replace(/&amp;/g, '&');
 };
 
-var notificationQueue = [];
+var createQuery = function(obj) {
+  return '?' + Object.keys(obj).map(function(key) {
+    return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]);
+  }).join('&');
+};
 
 var notification = function(item) {
   console.log('Notification', item);
-  notificationQueue.push(item);
-  var n = webkitNotifications.createHTMLNotification('notification.html');
+  var n = webkitNotifications.createHTMLNotification('notification.html' + createQuery(item));
   n.show();
   if(item.automaticallyClose) {
     setTimeout(function() {

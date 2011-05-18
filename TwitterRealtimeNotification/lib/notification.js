@@ -20,20 +20,27 @@
  * THE SOFTWARE.
  */
 
+var parseQuery = function() {
+  var queryString = location.search.substring(1);
+  var query = {};
+  queryString.split('&').forEach(function(pair) {
+    var kv = pair.split('=');
+    if(kv.length == 2) {
+      query[decodeURIComponent(kv[0])] = decodeURIComponent(kv[1]);
+    }
+  });
+  return query;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-  var background = chrome.extension.getBackgroundPage();
-  var queue = background.notificationQueue;
-  if(queue.length == 0) {
-    window.close();
-  }
-  var item = queue.shift();
+  var query = parseQuery();
   var title = document.getElementById('title');
   var icon = document.getElementById('icon');
   var content = document.getElementById('content');
-  title.textContent = item.title;
-  title.href = item.href;
-  icon.src = item.iconUrl;
-  content.textContent = item.content;
+  title.textContent = query.title;
+  title.href = query.href;
+  icon.src = query.iconUrl;
+  content.textContent = query.content;
   title.addEventListener('click', function() {
     chrome.tabs.create({
       url: title.href
