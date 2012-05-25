@@ -122,7 +122,7 @@ var notification = function(item) {
 
 var onMention = function(item) {
   notification({
-    href:    'https://twitter.com/#!/' + item.user.screen_name + '/statuses/' + item.id_str,
+    href:    'https://twitter.com/' + item.user.screen_name + '/statuses/' + item.id_str,
     iconUrl: item.user.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_mention_title', [ item.user.name, item.user.screen_name ]),
     content: unescapeHTML(item.text),
@@ -131,7 +131,7 @@ var onMention = function(item) {
 };
 var onDirectMessage = function(item) {
   notification({
-    href:    'https://twitter.com/#!/messages',
+    href:    'https://twitter.com/messages',
     iconUrl: item.direct_message.sender.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_directMessage_title', [ item.direct_message.sender.name, item.direct_message.sender.screen_name ]),
     content: unescapeHTML(item.direct_message.text),
@@ -140,7 +140,7 @@ var onDirectMessage = function(item) {
 };
 var onRetweet = function(item) {
   notification({
-    href:    'https://twitter.com/#!/' + item.retweeted_status.user.screen_name + '/statuses/' + item.retweeted_status.id_str,
+    href:    'https://twitter.com/' + item.retweeted_status.user.screen_name + '/statuses/' + item.retweeted_status.id_str,
     iconUrl: item.user.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_retweet_title', [ item.user.name, item.user.screen_name ]),
     content: unescapeHTML(item.retweeted_status.text),
@@ -149,7 +149,7 @@ var onRetweet = function(item) {
 };
 var onFollow = function(item) {
   notification({
-    href:    'https://twitter.com/#!/' + item.source.screen_name,
+    href:    'https://twitter.com/' + item.source.screen_name,
     iconUrl: item.source.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_follow_title', [ item.source.name, item.source.screen_name ]),
     content: unescapeHTML(item.source.description),
@@ -158,7 +158,7 @@ var onFollow = function(item) {
 };
 var onFavorite = function(item) {
   notification({
-    href:    'https://twitter.com/#!/' + item.target_object.user.screen_name + '/statuses/' + item.target_object.id_str,
+    href:    'https://twitter.com/' + item.target_object.user.screen_name + '/statuses/' + item.target_object.id_str,
     iconUrl: item.source.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_favorite_title', [ item.source.name, item.source.screen_name ]),
     content: unescapeHTML(item.target_object.text),
@@ -167,7 +167,7 @@ var onFavorite = function(item) {
 };
 var onUnfavorite = function(item) {
   notification({
-    href:    'https://twitter.com/#!/' + item.target_object.user.screen_name + '/statuses/' + item.target_object.id_str,
+    href:    'https://twitter.com/' + item.target_object.user.screen_name + '/statuses/' + item.target_object.id_str,
     iconUrl: item.source.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_unfavorite_title', [ item.source.name, item.source.screen_name ]),
     content: unescapeHTML(item.target_object.text),
