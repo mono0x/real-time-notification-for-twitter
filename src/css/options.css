@@ -1,0 +1,10 @@
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+ul ul {
+  padding-left: 2em;
+}
+.group {
+  margin-bottom: 1em;
+}
