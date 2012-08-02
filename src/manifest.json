@@ -20,6 +20,5 @@
     "https://twitter.com/oauth/authorize",
     "https://userstream.twitter.com/2/user.json",
     "https://api.twitter.com/1/account/verify_credentials.json"
-  ],
-  "update_url": "http://monoweb.info/chrome/extension/twitterrealtimenotification/updates.xml"
+  ]
 }

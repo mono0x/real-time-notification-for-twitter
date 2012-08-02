@@ -1,10 +1,8 @@
 {
   "name": "TwitterRealtimeNotification",
   "appid": "iamjnedgdnlhaebeeoeegckocakofdke",
-  "codebase": "http://monoweb.info/chrome/extension/twitterrealtimenotification/TwitterRealtimeNotification.crx",
   "source_dir": "src",
   "pem_file": "TwitterRealtimeNotification.pem",
   "crx_file": "output/TwitterRealtimeNotification.crx",
-  "update_file": "output/updates.xml",
   "zip_file": "output/TwitterRealtimeNotification.zip"
 }
