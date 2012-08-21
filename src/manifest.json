@@ -9,7 +9,13 @@
     "chrome_ex_oauth.html"
   ],
   "background": {
-    "page": "background.html"
+    "scripts": [
+      "lib/analytics.js",
+      "lib/chrome_ex_oauthsimple.js",
+      "lib/chrome_ex_oauth.js",
+      "lib/userstream.js",
+      "lib/background.js"
+    ]
   },
   "options_page": "options.html",
   "permissions": [
