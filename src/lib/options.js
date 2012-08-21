@@ -21,89 +21,41 @@
  */
 
 $(function() {
-var background = chrome.extension.getBackgroundPage();
+  var background = chrome.extension.getBackgroundPage();
 
-(function() {
+  var Settings   = background.Settings;
 
-var options = background.load();
+  $('.group.notification').each(function() {
+    var group   = $(this).attr('id');
+    var name    = 'notify' + group;
+    var element = $(this).find('#' + name);
+    var details = $(this).find('.details input');
 
-$('#events_mention_enabled').attr('checked', options.events.mention.enabled);
-$('#events_mention_matchInReplyTo').attr('checked', options.events.mention.matchInReplyTo);
-$('#events_mention_automaticallyClose').attr('checked', options.events.mention.automaticallyClose);
-$('#events_directMessage_enabled').attr('checked', options.events.directMessage.enabled);
-$('#events_directMessage_automaticallyClose').attr('checked', options.events.directMessage.automaticallyClose);
-$('#events_retweet_enabled').attr('checked', options.events.retweet.enabled);
-$('#events_retweet_automaticallyClose').attr('checked', options.events.retweet.automaticallyClose);
-$('#events_favorite_enabled').attr('checked', options.events.favorite.enabled);
-$('#events_favorite_automaticallyClose').attr('checked', options.events.favorite.automaticallyClose);
-$('#events_unfavorite_enabled').attr('checked', options.events.unfavorite.enabled);
-$('#events_unfavorite_automaticallyClose').attr('checked', options.events.unfavorite.automaticallyClose);
-$('#events_follow_enabled').attr('checked', options.events.follow.enabled);
-$('#events_follow_automaticallyClose').attr('checked', options.events.follow.automaticallyClose);
-
-$('#notification_automaticallyClose_timeout').val(options.notification.automaticallyClose.timeout);
-
-})();
-
-var setMessage = function(name) {
-  $('.' + name).text(chrome.i18n.getMessage(name));
-};
-
-setMessage('options_options');
-setMessage('options_events');
-setMessage('options_events_help');
-setMessage('options_events_mention');
-setMessage('options_events_mention_matchInReplyTo');
-setMessage('options_events_mention_matchInReplyTo_help');
-setMessage('options_events_directMessage');
-setMessage('options_events_retweet');
-setMessage('options_events_favorite');
-setMessage('options_events_unfavorite');
-setMessage('options_events_follow');
-setMessage('options_events_automaticallyClose');
-setMessage('options_notification_automaticallyClose_timeout');
-
-setMessage('options_unit_second');
-
-$('input[type="submit"]').val(chrome.i18n.getMessage('options_save'));
-
-$('form').submit(function() {
-  background.save({
-    version: 1,
-    events: {
-      mention: {
-        enabled: $('#events_mention_enabled').is(':checked'),
-        matchInReplyTo: $('#events_mention_matchInReplyTo').is(':checked'),
-        automaticallyClose: $('#events_mention_automaticallyClose').is(':checked')
-      },
-      directMessage: {
-        enabled: $('#events_directMessage_enabled').is(':checked'),
-        automaticallyClose: $('#events_directMessage_automaticallyClose').is(':checked')
-      },
-      retweet: {
-        enabled: $('#events_retweet_enabled').is(':checked'),
-        automaticallyClose: $('#events_retweet_automaticallyClose').is(':checked')
-      },
-      favorite: {
-        enabled: $('#events_favorite_enabled').is(':checked'),
-        automaticallyClose: $('#events_favorite_automaticallyClose').is(':checked')
-      },
-      unfavorite: {
-        enabled: $('#events_unfavorite_enabled').is(':checked'),
-        automaticallyClose: $('#events_unfavorite_automaticallyClose').is(':checked')
-      },
-      follow: {
-        enabled: $('#events_follow_enabled').is(':checked'),
-        automaticallyClose: $('#events_follow_automaticallyClose').is(':checked')
-      }
-    },
-    notification: {
-      automaticallyClose: {
-        timeout: parseInt($('#notification_automaticallyClose_timeout').val(), 10)
-      }
-    }
+    element.prop('checked', Settings.get(name));
+    element.click(function() {
+      var checked = $(this).is(':checked');
+      Settings.set(name, checked);
+      details.prop('disabled', !checked);
+    });
+    details.each(function() {
+      var e = $(this);
+      var id = e.attr('id');
+      e.prop('checked', Settings.get(id));
+      e.click(function() {
+        console.log('click', e);
+        Settings.set(id, e.is(':checked'));
+      });
+    });
+    details.prop('disabled', !Settings.get(name));
   });
-  return false;
-});
+
+  $('#autoHideTimeout').prop('valueAsNumber', Settings.get('autoHideTimeout'));
+  $('#autoHideTimeout').change(function() {
+    Settings.set('autoHideTimeout', $(this).prop('valueAsNumber'));
+  });
+
+  $('.text').each(function() {
+    $(this).text(chrome.i18n.getMessage($(this).attr('id')));
+  });
 
 });

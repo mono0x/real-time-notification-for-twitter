@@ -20,71 +20,6 @@
  * THE SOFTWARE.
  */
 
-var defaultOptions = {
-  version: 1,
-  events: {
-    mention: {
-      enabled: true,
-      matchInReplyTo: false,
-      automaticallyClose: true
-    },
-    directMessage: {
-      enabled: true,
-      automaticallyClose: false
-    },
-    retweet: {
-      enabled: true,
-      automaticallyClose: true
-    },
-    favorite: {
-      enabled: true,
-      automaticallyClose: true
-    },
-    unfavorite: {
-      enabled: false,
-      automaticallyClose: true
-    },
-    follow: {
-      enabled: true,
-      automaticallyClose: false
-    }
-  },
-  notification: {
-    automaticallyClose: {
-      timeout: 30
-    }
-  }
-};
-
-var clone = function(obj) {
-  return JSON.parse(JSON.stringify(obj));
-};
-
-var merge = function(obj, other) {
-  var result = clone(obj);
-  for(var property in other) {
-    if(result[property] === undefined) {
-      result[property] = other[property];
-    }
-    else if(typeof result[property] == 'object') {
-      result[property] = merge(result[property], other[property]);
-    }
-  }
-  return result;
-};
-
-var load = function() {
-  var options = localStorage.options;
-  var result = options ? merge(JSON.parse(options), defaultOptions) : clone(defaultOptions);
-  console.log('Options Loaded', result);
-  return result;
-};
-var save = function(options_) {
-  localStorage.options = JSON.stringify(merge(options_, defaultOptions));
-  options = options_;
-  console.log('Option Saved', options);
-};
-
 var oauth = ChromeExOAuth.initBackgroundPage({
   'request_url':     'https://twitter.com/oauth/request_token',
   'authorize_url':   'https://twitter.com/oauth/authorize',
@@ -97,8 +32,6 @@ var verifyCredentialsUrl = 'https://api.twitter.com/1/account/verify_credentials
 
 var user = null;
 
-var options = load();
-
 var unescapeHTML = function(html) {
   return html.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g,'"').replace(/&amp;/g, '&');
 };
@@ -110,13 +43,12 @@ var createQuery = function(obj) {
 };
 
 var notification = function(item) {
-  console.log('Notification', item);
   var n = webkitNotifications.createHTMLNotification('notification.html' + createQuery(item));
   n.show();
-  if(item.automaticallyClose) {
+  if(item.autoHide) {
     setTimeout(function() {
       n.cancel();
-    }, options.notification.automaticallyClose.timeout * 1000);
+    }, Settings.autoHideTimeout * 1000);
   }
 };
 
@@ -126,7 +58,7 @@ var onMention = function(item) {
     iconUrl: item.user.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_mention_title', [ item.user.name, item.user.screen_name ]),
     content: unescapeHTML(item.text),
-    automaticallyClose: options.events.mention.automaticallyClose
+    autoHide: Settings.get('autoHideMentions')
   });
 };
 var onDirectMessage = function(item) {
@@ -135,7 +67,7 @@ var onDirectMessage = function(item) {
     iconUrl: item.direct_message.sender.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_directMessage_title', [ item.direct_message.sender.name, item.direct_message.sender.screen_name ]),
     content: unescapeHTML(item.direct_message.text),
-    automaticallyClose: options.events.directMessage.automaticallyClose
+    autoHide: Settings.get('autoHideDirectMessages')
   });
 };
 var onRetweet = function(item) {
@@ -144,7 +76,7 @@ var onRetweet = function(item) {
     iconUrl: item.user.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_retweet_title', [ item.user.name, item.user.screen_name ]),
     content: unescapeHTML(item.retweeted_status.text),
-    automaticallyClose: options.events.retweet.automaticallyClose
+    autoHide: Settings.get('autoHideRetweets')
   });
 };
 var onFollow = function(item) {
@@ -153,7 +85,7 @@ var onFollow = function(item) {
     iconUrl: item.source.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_follow_title', [ item.source.name, item.source.screen_name ]),
     content: unescapeHTML(item.source.description),
-    automaticallyClose: options.events.follow.automaticallyClose
+    autoHide: Settings.get('autoHideFollows')
   });
 };
 var onFavorite = function(item) {
@@ -162,7 +94,7 @@ var onFavorite = function(item) {
     iconUrl: item.source.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_favorite_title', [ item.source.name, item.source.screen_name ]),
     content: unescapeHTML(item.target_object.text),
-    automaticallyClose: options.events.favorite.automaticallyClose
+    autoHide: Settings.get('autoHideFavorites')
   });
 };
 var onUnfavorite = function(item) {
@@ -171,28 +103,28 @@ var onUnfavorite = function(item) {
     iconUrl: item.source.profile_image_url,
     title:   chrome.i18n.getMessage('notifications_unfavorite_title', [ item.source.name, item.source.screen_name ]),
     content: unescapeHTML(item.target_object.text),
-    automaticallyClose: options.events.unfavorite.automaticallyClose
+    autoHide: Settings.get('autoHideUnfavorites')
   });
 };
 
 var onReceive = function(item) {
   switch(item.event) {
   case 'favorite':
-    if(options.events.favorite.enabled) {
+    if(Settings.get('notifyFavorites')) {
       if(item.source.id_str != user.id_str) {
         onFavorite(item);
       }
     }
     break;
   case 'unfavorite':
-    if(options.events.unfavorite.enabled) {
+    if(Settings.get('notifyUnfavorites')) {
       if(item.source.id_str != user.id_str) {
         onUnfavorite(item);
       }
     }
     break;
   case 'follow':
-    if(options.events.follow.enabled) {
+    if(Settings.get('notifyFollows')) {
       if(item.source.id_str != user.id_str) {
         onFollow(item);
       }
@@ -200,26 +132,21 @@ var onReceive = function(item) {
     break;
   default:
     if(item.retweeted_status) {
-      if(options.events.retweet.enabled) {
+      if(Settings.get('notifyRetweets')) {
         if(item.retweeted_status.user.id_str === user.id_str) {
           onRetweet(item);
         }
       }
     }
     else if(item.text && item.text.indexOf('@' + user.screen_name) != -1) {
-      if(options.events.mention.enabled) {
-        if(options.events.mention.matchInReplyTo) {
-          if(item.in_reply_to_user_id_str === user.id_str) {
+      if(Settings.get('notifyMentions')) {
+        if(!Settings.get('filterInReplyTo') || item.in_reply_to_user_id_str === user.id_str) {
             onMention(item);
-          }
-        }
-        else {
-          onMention(item);
         }
       }
     }
     else if(item.direct_message) {
-      if(options.events.directMessage.enabled) {
+      if(Settings.get('notifyDirectMessages')) {
         if(item.direct_message.sender.id_str != user.id_str) {
           onDirectMessage(item);
         }
@@ -239,4 +166,3 @@ oauth.authorize(function() {
     userstream.start(onReceive);
   }, 'GET');
 });
-

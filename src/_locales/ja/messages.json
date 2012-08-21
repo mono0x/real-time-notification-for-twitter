@@ -11,9 +11,6 @@
   "options_events": {
     "message": "通知するイベント"
   },
-  "options_save": {
-    "message": "保存"
-  },
   "options_events_mention": {
     "message": "@関連"
   },

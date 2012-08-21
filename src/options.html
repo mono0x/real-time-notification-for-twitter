@@ -33,95 +33,95 @@
     <form>
       <ul>
         <li class="group">
-          <span class="options_events"></span>
+          <span class="text" id="options_events"></span>
           <ul>
-            <li>
+            <li class="group notification" id="Mentions">
               <label>
-                <input id="events_mention_enabled" type="checkbox" value="true" />
-                <span class="options_events_mention"></span>
+                <input id="notifyMentions" type="checkbox" value="true" />
+                <span class="text" id="options_events_mention"></span>
               </label>
-              <ul>
+              <ul class="details">
                 <li>
                   <label>
-                    <input id="events_mention_matchInReplyTo" type="checkbox" value="true" />
-                    <span class="options_events_mention_matchInReplyTo"></span>
+                    <input id="filterInReplyTo" type="checkbox" value="true" />
+                    <span class="text" id="options_events_mention_matchInReplyTo"></span>
                   </label>
-                  <span class="options_events_mention_matchInReplyTo_help"></span>
+                  <span class="text" id="options_events_mention_matchInReplyTo_help"></span>
                 </li>
                 <li>
                   <label>
-                    <input id="events_mention_automaticallyClose" type="checkbox" value="true" />
-                    <span class="options_events_automaticallyClose"></span>
-                  </label>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <label>
-                <input id="events_directMessage_enabled" type="checkbox" value="true" />
-                <span class="options_events_directMessage"></span>
-              </label>
-              <ul>
-                <li>
-                  <label>
-                    <input id="events_directMessage_automaticallyClose" type="checkbox" value="true" />
-                    <span class="options_events_automaticallyClose"></span>
+                    <input id="autoHideMentions" type="checkbox" value="true" />
+                    <span class="text" id="options_events_automaticallyClose"></span>
                   </label>
                 </li>
               </ul>
             </li>
-            <li>
+            <li class="group notification" id="DirectMessages">
               <label>
-                <input id="events_retweet_enabled" type="checkbox" value="true" />
-                <span class="options_events_retweet"></span>
+                <input id="notifyDirectMessages" type="checkbox" value="true" />
+                <span class="text" id="options_events_directMessage"></span>
               </label>
-              <ul>
+              <ul class="details">
                 <li>
                   <label>
-                    <input id="events_retweet_automaticallyClose" type="checkbox" value="true" />
-                    <span class="options_events_automaticallyClose"></span>
+                    <input id="autoHideDirectMessages" type="checkbox" value="true" />
+                    <span class="text" id="options_events_automaticallyClose"></span>
                   </label>
                 </li>
               </ul>
             </li>
-            <li>
+            <li class="group notification" id="Retweets">
               <label>
-                <input id="events_favorite_enabled" type="checkbox" value="true" />
-                <span class="options_events_favorite"></span>
+                <input id="notifyRetweets" type="checkbox" value="true" />
+                <span class="text" id="options_events_retweet"></span>
               </label>
-              <ul>
+              <ul class="details">
                 <li>
                   <label>
-                    <input id="events_favorite_automaticallyClose" type="checkbox" value="true" />
-                    <span class="options_events_automaticallyClose"></span>
+                    <input id="autoHideRetweets" type="checkbox" value="true" />
+                    <span class="text" id="options_events_automaticallyClose"></span>
                   </label>
                 </li>
               </ul>
             </li>
-            <li>
+            <li class="group notification" id="Favorites">
               <label>
-                <input id="events_unfavorite_enabled" type="checkbox" value="true" />
-                <span class="options_events_unfavorite"></span>
+                <input id="notifyFavorites" type="checkbox" value="true" />
+                <span class="text" id="options_events_favorite"></span>
               </label>
-              <ul>
+              <ul class="details">
                 <li>
                   <label>
-                    <input id="events_unfavorite_automaticallyClose" type="checkbox" value="true" />
-                    <span class="options_events_automaticallyClose"></span>
+                    <input id="autoHideFavorites" type="checkbox" value="true" />
+                    <span class="text" id="options_events_automaticallyClose"></span>
                   </label>
                 </li>
               </ul>
             </li>
-            <li>
+            <li class="group notification" id="Unfavorites">
               <label>
-                <input id="events_follow_enabled" type="checkbox" value="true" />
-                <span class="options_events_follow"></span>
+                <input id="notifyUnfavorites" type="checkbox" value="true" />
+                <span class="text" id="options_events_unfavorite"></span>
               </label>
-              <ul>
+              <ul class="details">
                 <li>
                   <label>
-                    <input id="events_follow_automaticallyClose" type="checkbox" value="true" />
-                    <span class="options_events_automaticallyClose"></span>
+                    <input id="autoHideUnfavorites" type="checkbox" value="true" />
+                    <span class="text" id="options_events_automaticallyClose"></span>
+                  </label>
+                </li>
+              </ul>
+            </li>
+            <li class="group notification" id="Follows">
+              <label>
+                <input id="notifyFollows" type="checkbox" value="true" />
+                <span class="text" id="options_events_follow"></span>
+              </label>
+              <ul class="details">
+                <li>
+                  <label>
+                    <input id="autoHideFollows" type="checkbox" value="true" />
+                    <span class="text" id="options_events_automaticallyClose"></span>
                   </label>
                 </li>
               </ul>
@@ -130,12 +130,11 @@
         </li>
 
         <li class="group">
-          <span class="options_notification_automaticallyClose_timeout"></span>:
-          <input id="notification_automaticallyClose_timeout" size="4" type="number" min="10" step="10" required="true" />
-          <span class="options_unit_second"></span>
+          <span class="text" id="options_notification_automaticallyClose_timeout"></span>:
+          <input id="autoHideTimeout" size="4" type="number" min="5" step="1" required="true" />
+          <span class="text" id="options_unit_second"></span>
         </li>
       </ul>
-      <input type="submit" value="" />
     </form>
   </body>
 </html>
