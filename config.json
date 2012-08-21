@@ -1,8 +1,8 @@
 {
-  "name": "TwitterRealtimeNotification",
+  "name": "Real Time Notification for Twitter",
   "appid": "iamjnedgdnlhaebeeoeegckocakofdke",
   "source_dir": "src",
-  "pem_file": "TwitterRealtimeNotification.pem",
-  "crx_file": "output/TwitterRealtimeNotification.crx",
-  "zip_file": "output/TwitterRealtimeNotification.zip"
+  "pem_file": "real-time-notification-for-twitter.pem",
+  "crx_file": "output/real-time-notification-for-twitter.crx",
+  "zip_file": "output/real-time-notification-for-twitter.zip"
 }
