@@ -1,6 +1,6 @@
 {
   "name": {
-    "message": "TwitterRealtimeNotification"
+    "message": "Realtime Notification for Twitter"
   },
   "description": {
     "message": "Twitterでのイベントをリアルタイムで通知する拡張機能です。"
