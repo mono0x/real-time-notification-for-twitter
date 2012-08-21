@@ -43,6 +43,7 @@ var createQuery = function(obj) {
 };
 
 var notification = function(item) {
+  console.log('notification', item);
   var n = webkitNotifications.createHTMLNotification('notification.html' + createQuery(item));
   n.show();
   if(item.autoHide) {
