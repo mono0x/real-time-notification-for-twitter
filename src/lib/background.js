@@ -48,7 +48,7 @@ var notification = function(item) {
   if(item.autoHide) {
     setTimeout(function() {
       n.cancel();
-    }, Settings.autoHideTimeout * 1000);
+    }, Settings.get('autoHideTimeout') * 1000);
   }
 };
 
