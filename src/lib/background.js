@@ -28,7 +28,7 @@ var oauth = ChromeExOAuth.initBackgroundPage({
   'consumer_secret': 'vEB1TzUlssMKUSDqGC4UMTshOklw0t9O6Q7nbHBB08'
 });
 
-var verifyCredentialsUrl = 'https://api.twitter.com/1/account/verify_credentials.json';
+var verifyCredentialsUrl = 'https://api.twitter.com/1.1/account/verify_credentials.json';
 
 var user = null;
 

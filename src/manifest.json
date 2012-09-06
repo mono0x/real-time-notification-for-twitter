@@ -27,6 +27,6 @@
     "https://twitter.com/oauth/access_token",
     "https://twitter.com/oauth/authorize",
     "https://userstream.twitter.com/2/user.json",
-    "https://api.twitter.com/1/account/verify_credentials.json"
+    "https://api.twitter.com/1.1/account/verify_credentials.json"
   ]
 }
