@@ -24,7 +24,7 @@ function UserStream(oauth) {
   this.oauth = oauth;
 }
 
-UserStream.USER_STREAM_URI = 'https://userstream.twitter.com/2/user.json';
+UserStream.USER_STREAM_URI = 'https://userstream.twitter.com/1.1/user.json';
 
 UserStream.prototype.start = function(callback) {
   this.oauth.authorize(function() {
