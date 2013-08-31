@@ -44,7 +44,13 @@ var createQuery = function(obj) {
 
 var notification = function(item) {
   console.log('notification', item);
-  var n = webkitNotifications.createHTMLNotification('notification.html' + createQuery(item));
+  var n = webkitNotifications.createNotification(item.iconUrl, item.title, item.content);
+  n.onclick = function() {
+    chrome.tabs.create({
+      url: item.href
+    });
+    n.cancel();
+  };
   n.show();
   if(item.autoHide) {
     setTimeout(function() {
